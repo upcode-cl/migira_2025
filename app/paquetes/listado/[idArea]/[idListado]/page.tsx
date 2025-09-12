@@ -2,25 +2,50 @@
 import { getProgramaListadoDetalle } from "@/app/api/Services";
 import { Program } from "@/app/interfaces/interfaces";
 import Destinos_info from "@/components/Destinos_info";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
-const Page = (props: { params: { idArea: string; idListado: string } }) => {
+type Props = {
+  params: Promise<{ idArea: string; idListado: string }>;
+};
+
+const Page = ({ params }: Props) => {
   const [programas, setProgramas] = useState<Program[]>([]);
+  const [resolvedParams, setResolvedParams] = useState<{ idArea: string; idListado: string } | null>(null);
 
-  const llamarProgramas = async () => {
+  useEffect(() => {
+    const resolveParams = async () => {
+      const resolved = await params;
+      setResolvedParams(resolved);
+    };
+    resolveParams();
+  }, [params]);
+
+  const llamarProgramas = useCallback(async () => {
+    if (!resolvedParams) return;
+    
     const response = await getProgramaListadoDetalle(
-      Number(props.params.idArea),
-      Number(props.params.idListado)
+      Number(resolvedParams.idArea),
+      Number(resolvedParams.idListado)
     );
 
     if (response.statusCode === 200) {
       setProgramas(response.value.entities);
     }
-  };
+  }, [resolvedParams]);
 
   useEffect(() => {
-    llamarProgramas();
-  }, []);
+    if (resolvedParams) {
+      llamarProgramas();
+    }
+  }, [llamarProgramas, resolvedParams]);
+
+  if (!resolvedParams) {
+    return (
+      <div className="bg-white mb-10 flex justify-center items-center min-h-[400px]">
+        <div className="text-[#58167D] text-xl">Cargando...</div>
+      </div>
+    );
+  }
 
   return (
     <div className=" bg-white mb-10 ">

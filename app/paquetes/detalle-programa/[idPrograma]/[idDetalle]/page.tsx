@@ -4,9 +4,14 @@ import { getProgramaDetalle } from "@/app/api/Services";
 import { Program } from "@/app/interfaces/interfaces";
 import DetallePrograma from "@/components/DetallPrograma";
 
-export default async function Page(props: any) {
-  const idPrograma: number = props.params?.idPrograma;
-  const idDetalle: number = props.params?.idDetalle;
+type Props = {
+  params: Promise<{ idPrograma: string; idDetalle: string }>;
+};
+
+export default async function Page({ params }: Props) {
+  const resolvedParams = await params;
+  const idPrograma: number = Number(resolvedParams.idPrograma);
+  const idDetalle: number = Number(resolvedParams.idDetalle);
 
   const response = await getProgramaDetalle(idPrograma, idDetalle);
 

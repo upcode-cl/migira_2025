@@ -5,11 +5,12 @@ import Image from "next/image";
 import React from "react";
 
 type Props = {
-  params: { idArea: string };
+  params: Promise<{ idArea: string }>;
 };
 
 const page = async ({ params }: Props) => {
-  const idArea = Number(params.idArea);
+  const resolvedParams = await params;
+  const idArea = Number(resolvedParams.idArea);
   const [destinosResponse, areasResponse] = await Promise.all([
     getDestinos(idArea),
     getAreas(),
