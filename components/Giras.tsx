@@ -10,21 +10,18 @@ const Giras = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
+  // funcion que trabaja con la API para traer las giras de estudio
+ const girasDeEstudio = async () => {
       try {
         setLoading(true);
         setError(null);
 
         // Ejecutamos ambas promesas en paralelo para mayor eficiencia
-        const [girasResponse, exchangeResponse] = await Promise.all([
-          getGiras(),
-          Exchange(),
-        ]);
-
+        const response = await getGiras();
+        const exchangeResponse = await Exchange();
         // Verificamos y actualizamos los estados solo si ambas peticiones fueron exitosas
-        if (girasResponse.statusCode === 200 && exchangeResponse) {
-          setProgramasGiras(girasResponse.value.entities);
+        if (response.statusCode === 200 && exchangeResponse) {
+          setProgramasGiras(response.value.entities);
           setCambio(exchangeResponse);
         } else {
           // Si algo falla, lanzamos un error para que lo capture el catch
@@ -42,7 +39,10 @@ const Giras = () => {
         setLoading(false);
       }
     };
-    fetchData();
+
+  useEffect(() => {
+   // llamamos a la función para cargar las giras de estudio
+    girasDeEstudio();
   }, []);
 
   if (loading) {

@@ -128,11 +128,11 @@ export const getProgramaListadoDetalle = async (idPrograma:number,idDetalle:numb
   }
 };
 
-
-export const getGiras = async () :Promise<ApiResponses<Program[]>> =>{
+  
+export const getGiras = async () :Promise<ApiListResponse<Program[]>> =>{
   try{
     const result = await axios.get(`${process.env.NEXT_PUBLIC_API_MIGIRA}/api/Migira/Giras`);
-    const response = result.data as ApiResponses<Program[]>;
+    const response = result.data as ApiListResponse<Program[]>;
     return response;
   }catch(error){
      if (axios.isAxiosError(error)) {
