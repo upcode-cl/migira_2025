@@ -127,3 +127,20 @@ export const getProgramaListadoDetalle = async (idPrograma:number,idDetalle:numb
     }
   }
 };
+
+
+export const getGiras = async () :Promise<ApiResponses<Program[]>> =>{
+  try{
+    const result = await axios.get(`${process.env.NEXT_PUBLIC_API_MIGIRA}/api/Migira/Giras`);
+    const response = result.data as ApiResponses<Program[]>;
+    return response;
+  }catch(error){
+     if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.response?.data || error.message);
+      throw error; // Lanza el error para que pueda ser manejado por quien llame a esta función
+    } else {
+      console.error('Unexpected error:', error);
+      throw error;
+    }
+  }
+};

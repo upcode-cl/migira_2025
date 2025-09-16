@@ -11,7 +11,7 @@ import Link from "next/link";
 import { formatNumber } from "@/utils/number-formatter";
 import { ResponseExchange } from "@/app/interfaces/interfaces";
 
-interface Props {
+interface PropsGiras {
   Titulo?: string;
   Dias?: string;
   Noches?: string;
@@ -23,7 +23,7 @@ interface Props {
   cambio?: ResponseExchange;
 }
 
-const Destinos_info = ({
+const Destinos_info_giras = ({
   Titulo,
   Dias,
   Noches,
@@ -33,7 +33,7 @@ const Destinos_info = ({
   ImagenDestino,
   IdPrograma,
   cambio,
-}: Props) => {
+}: PropsGiras) => {
   const precioFormateado = formatNumber(Number(Precio));
   const cambioContadoValue =
     Number(String(cambio?.CambioContado || "0").replace(",", ".")) || 0;
@@ -111,4 +111,4 @@ const Destinos_info = ({
   );
 };
 
-export default Destinos_info;
+export default Destinos_info_giras;
