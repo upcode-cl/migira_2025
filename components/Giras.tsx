@@ -11,37 +11,37 @@ const Giras = () => {
   const [error, setError] = useState<string | null>(null);
 
   // funcion que trabaja con la API para traer las giras de estudio
- const girasDeEstudio = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  const girasDeEstudio = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        // Ejecutamos ambas promesas en paralelo para mayor eficiencia
-        const response = await getGiras();
-        const exchangeResponse = await Exchange();
-        // Verificamos y actualizamos los estados solo si ambas peticiones fueron exitosas
-        if (response.statusCode === 200 && exchangeResponse) {
-          setProgramasGiras(response.value.entities);
-          setCambio(exchangeResponse);
-        } else {
-          // Si algo falla, lanzamos un error para que lo capture el catch
-          throw new Error(
-            "No se pudieron cargar los datos de giras o el tipo de cambio."
-          );
-        }
-      } catch (err) {
-        console.error("Error fetching data in Giras component:", err);
-        setError(
-          "Hubo un problema al cargar la información. Por favor, intenta de nuevo más tarde."
+      // Ejecutamos ambas promesas en paralelo para mayor eficiencia
+      const response = await getGiras();
+      const exchangeResponse = await Exchange();
+      // Verificamos y actualizamos los estados solo si ambas peticiones fueron exitosas
+      if (response.statusCode === 200 && exchangeResponse) {
+        setProgramasGiras(response.value.entities);
+        setCambio(exchangeResponse);
+      } else {
+        // Si algo falla, lanzamos un error para que lo capture el catch
+        throw new Error(
+          "No se pudieron cargar los datos de giras o el tipo de cambio."
         );
-      } finally {
-        // Ocultamos el loader, ya sea que todo fue bien o mal
-        setLoading(false);
       }
-    };
+    } catch (err) {
+      console.error("Error fetching data in Giras component:", err);
+      setError(
+        "Hubo un problema al cargar la información. Por favor, intenta de nuevo más tarde."
+      );
+    } finally {
+      // Ocultamos el loader, ya sea que todo fue bien o mal
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-   // llamamos a la función para cargar las giras de estudio
+    // llamamos a la función para cargar las giras de estudio
     girasDeEstudio();
   }, []);
 

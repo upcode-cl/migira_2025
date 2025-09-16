@@ -1,16 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Destinos_info from "./Destinos_info";
-import { getProgramasDestacados } from "@/app/api/Services";
-import { Program } from "@/app/interfaces/interfaces";
+import { Exchange, getProgramasDestacados } from "@/app/api/Services";
+import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 
 const Destinos = () => {
   const [programas, setProgramas] = useState<Program[]>([]);
+  const [cambio, setCambio] = useState<ResponseExchange | undefined>();
 
   const llamarProgramas = async () => {
     const response = await getProgramasDestacados();
+    const exchangeResponse = await Exchange();
+
     if (response.statusCode === 200) {
       setProgramas(response.value.entities);
+      setCambio(exchangeResponse);
     }
   };
 
@@ -35,6 +39,7 @@ const Destinos = () => {
             ValorPersona={programa.ValoresProgramas[0]?.Text}
             ImagenDestino={programa.UrlImage}
             IdPrograma={programa.IdPrograma}
+            cambio={cambio}
           />
         ))}
       </div>
