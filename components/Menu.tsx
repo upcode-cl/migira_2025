@@ -129,18 +129,22 @@ const Menu = () => {
                 Paquetes
               </li>
             </Link>
-            <li className="animacion-botones">
-              <span>
-                <Sparkles />
-              </span>
-              Lujos
-            </li>
-            <li className="animacion-botones ">
-              <span>
-                <Ship />{" "}
-              </span>
-              Cruceros
-            </li>
+            <Link href="/lujos">
+              <li className="animacion-botones">
+                <span>
+                  <Sparkles />
+                </span>
+                Lujos
+              </li>
+            </Link>
+            <Link href="/cruceros">
+              <li className="animacion-botones ">
+                <span>
+                  <Ship />{" "}
+                </span>
+                Cruceros
+              </li>
+            </Link>
             <li className="animacion-botones">
               <span>
                 <Headset />

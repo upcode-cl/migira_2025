@@ -167,3 +167,37 @@ export const getGiras = async () :Promise<ApiListResponse<Program[]>> =>{
     }
   }
 };
+
+
+export const getLujos = async () :Promise<ApiListResponse<Program[]>> =>{
+  try{
+    const result = await axios.get(`${process.env.NEXT_PUBLIC_API_MIGIRA}/api/Migira/Lujo`);
+    const response = result.data as ApiListResponse<Program[]>;
+    return response;
+  }catch(error){
+     if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.response?.data || error.message);
+      throw error; // Lanza el error para que pueda ser manejado por quien llame a esta función
+    } else {
+      console.error('Unexpected error:', error);
+      throw error;
+    }
+  }
+};
+
+
+export const getCruceros = async () :Promise<ApiListResponse<Program[]>> =>{
+  try{
+    const result = await axios.get(`${process.env.NEXT_PUBLIC_API_MIGIRA}/api/Migira/Cruceros`);
+    const response = result.data as ApiListResponse<Program[]>;
+    return response;
+  }catch(error){
+     if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.response?.data || error.message);
+      throw error; // Lanza el error para que pueda ser manejado por quien llame a esta función
+    } else {
+      console.error('Unexpected error:', error);
+      throw error;
+    }
+  }
+};

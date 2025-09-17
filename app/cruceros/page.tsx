@@ -1,10 +1,10 @@
 "use client";
-import { getGiras, Exchange2 } from "@/app/api/Services";
+import { Exchange2, getCruceros } from "@/app/api/Services";
 import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 import React, { useEffect, useState } from "react";
-import Destinos_info_giras from "./Destino_info_giras";
+import Destinos_info_giras from "../../components/Destino_info_giras";
 
-const Giras = () => {
+const Cruceros = () => {
   const [programasGiras, setProgramasGiras] = useState<Program[]>([]);
   const [cambio, setCambio] = useState<ResponseExchange | undefined>();
   const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ const Giras = () => {
       setError(null);
 
       // Ejecutamos ambas promesas en paralelo para mayor eficiencia
-      const response = await getGiras();
+      const response = await getCruceros();
 
       // Verificamos y actualizamos los estados solo si ambas peticiones fueron exitosas
       if (response.statusCode === 200) {
@@ -69,9 +69,9 @@ const Giras = () => {
   return (
     <div className=" bg-white ">
       <div className="bg-white flex items-center justify-center flex-col p-4 text-center">
-        <h2 className="text-[60px] text-[#58167D]">Giras de Estudio</h2>
+        <h2 className="text-[60px] text-[#58167D]">Cruceros</h2>
         <h3 className="text-[30px] text-[#58167D]">
-          La mejor experiencia para disfrutar con tu curso
+          Vive una experiencia de viaje inigualable
         </h3>
       </div>
       {/* video de youtube */}
@@ -107,4 +107,4 @@ const Giras = () => {
   );
 };
 
-export default Giras;
+export default Cruceros;
