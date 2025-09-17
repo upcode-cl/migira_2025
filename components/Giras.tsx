@@ -1,5 +1,5 @@
 "use client";
-import { getGiras, Exchange } from "@/app/api/Services";
+import { getGiras, Exchange2 } from "@/app/api/Services";
 import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 import React, { useEffect, useState } from "react";
 import Destinos_info_giras from "./Destino_info_giras";
@@ -18,11 +18,10 @@ const Giras = () => {
 
       // Ejecutamos ambas promesas en paralelo para mayor eficiencia
       const response = await getGiras();
-      const exchangeResponse = await Exchange();
+
       // Verificamos y actualizamos los estados solo si ambas peticiones fueron exitosas
-      if (response.statusCode === 200 && exchangeResponse) {
+      if (response.statusCode === 200) {
         setProgramasGiras(response.value.entities);
-        setCambio(exchangeResponse);
       } else {
         // Si algo falla, lanzamos un error para que lo capture el catch
         throw new Error(
@@ -40,9 +39,23 @@ const Giras = () => {
     }
   };
 
+  const obtenerGiras = async () => {
+    try {
+      const exchangeResponse = await Exchange2();
+      setCambio(exchangeResponse);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
     // llamamos a la función para cargar las giras de estudio
-    girasDeEstudio();
+    setTimeout(() => {
+      girasDeEstudio();
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    obtenerGiras();
   }, []);
 
   if (loading) {

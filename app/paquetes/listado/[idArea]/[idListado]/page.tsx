@@ -1,6 +1,6 @@
 "use client";
-import { getProgramaListadoDetalle } from "@/app/api/Services";
-import { Program } from "@/app/interfaces/interfaces";
+import { Exchange, getProgramaListadoDetalle } from "@/app/api/Services";
+import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 import Destinos_info from "@/components/Destinos_info";
 import React, { useCallback, useEffect, useState } from "react";
 
@@ -10,7 +10,12 @@ type Props = {
 
 const Page = ({ params }: Props) => {
   const [programas, setProgramas] = useState<Program[]>([]);
-  const [resolvedParams, setResolvedParams] = useState<{ idArea: string; idListado: string } | null>(null);
+  const [resolvedParams, setResolvedParams] = useState<{
+    idArea: string;
+    idListado: string;
+  } | null>(null);
+
+  const [cambio, setCambio] = useState<ResponseExchange | undefined>();
 
   useEffect(() => {
     const resolveParams = async () => {
@@ -22,14 +27,16 @@ const Page = ({ params }: Props) => {
 
   const llamarProgramas = useCallback(async () => {
     if (!resolvedParams) return;
-    
+
     const response = await getProgramaListadoDetalle(
       Number(resolvedParams.idArea),
       Number(resolvedParams.idListado)
     );
+    const exchangeResponse = await Exchange();
 
     if (response.statusCode === 200) {
       setProgramas(response.value.entities);
+      setCambio(exchangeResponse);
     }
   }, [resolvedParams]);
 
@@ -64,6 +71,7 @@ const Page = ({ params }: Props) => {
             ValorPersona={programa.ValoresProgramas[0]?.Text}
             ImagenDestino={programa.UrlImage}
             IdPrograma={programa.IdPrograma}
+            cambio={cambio}
           />
         ))}
       </div>
