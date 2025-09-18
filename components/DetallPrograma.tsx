@@ -75,13 +75,26 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
           {/* Info destino */}
           <div className="mt-2 w-[95%]">
             <h2 className="font-bold">Información del Destino</h2>
-            {data?.Itinerarios?.map((it) =>
-              it.Tipo === "1" ? (
-                <div key={it.Dia} className="mb-4 text-justify">
-                  <p>{it.Cuerpo}</p>
-                </div>
-              ) : null
-            )}
+            {(() => {
+              // Buscar itinerario de tipo "1"
+              const itinerarioTipo1 = data?.Itinerarios?.find(it => it.Tipo === "1");
+              
+              
+                // Si existe itinerario tipo 1 y tiene contenido en el cuerpo
+              if (itinerarioTipo1 && itinerarioTipo1.Cuerpo && itinerarioTipo1.Cuerpo.trim() !== '') {
+                return (
+                  <div className="mb-4 text-justify">
+                    <p>{itinerarioTipo1.Cuerpo}</p>
+                  </div>
+                );
+              } else {
+                // Si no tiene información, mostrar video
+                return (
+                  <div dangerouslySetInnerHTML={{ __html: data?.Video || "" }} />
+                );
+              }
+              
+            })()}
           </div>
         </div>
 
