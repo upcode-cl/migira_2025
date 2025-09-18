@@ -25,7 +25,7 @@ const Destinos = () => {
   return (
     <div className=" bg-white mb-10 ">
       <h2 className="text-[50px] text-[#58167D] flex justify-center items-center text-center pl-5 pr-5 font-bold">
-        Nuestros destinos más populares
+        Nos Especializamos en Programas Turísticos
       </h2>
       <div className="grid grid-col-1 lg:grid-cols-3 md:grid-cols-2 gap-10 pl-4 pr-4 lg:pl-28  lg:pr-28 pt-[50px] ">
         {programas.map((programa: Program) => (
