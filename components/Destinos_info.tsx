@@ -72,17 +72,22 @@ const Destinos_info = ({
             {Hotels === undefined ? (
               <span>(Confirmar con Agente)</span>
             ) : (
-              <span className="">
-                <Hotel className="inline mb-1" />
-                {Hotels}
-                <br></br> <small className="ml-2">(Confirmar con Agente)</small>
-              </span>
+              <div>
+                <div className="flex">
+                  <Hotel className="inline mb-1" />
+                  <div className="text-3xl">{Hotels}</div>
+                </div>
+                <div>
+                  <br></br>{" "}
+                  <small className="ml-2">(Confirmar con Agente)</small>
+                </div>
+              </div>
             )}
           </div>
         </h3>
 
         <h5 className="pt-6 text-sm">Desde</h5>
-        <h4 className="text-xl pb-2 font-bold text-[#58167D]">
+        <h4 className="text-3xl pb-2 font-bold text-[#58167D]">
           USD {precioFormateado}
         </h4>
         <small className="text-[14px] mb-2 font-bold">

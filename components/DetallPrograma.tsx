@@ -62,7 +62,7 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
           {/* Contenedor para el título con el icono MapPin */}
           <div className="flex items-center">
             <MapPin className="font-bold mr-2" />
-            <span className="font-bold text-[24px]">{data?.Titulo}</span>
+            <span className="font-bold text-[34px]">{data?.Titulo}</span>
           </div>
 
           {data.Subtitulo && (
@@ -77,11 +77,16 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
             <h2 className="font-bold">Información del Destino</h2>
             {(() => {
               // Buscar itinerario de tipo "1"
-              const itinerarioTipo1 = data?.Itinerarios?.find(it => it.Tipo === "1");
-              
-              
-                // Si existe itinerario tipo 1 y tiene contenido en el cuerpo
-              if (itinerarioTipo1 && itinerarioTipo1.Cuerpo && itinerarioTipo1.Cuerpo.trim() !== '') {
+              const itinerarioTipo1 = data?.Itinerarios?.find(
+                (it) => it.Tipo === "1"
+              );
+
+              // Si existe itinerario tipo 1 y tiene contenido en el cuerpo
+              if (
+                itinerarioTipo1 &&
+                itinerarioTipo1.Cuerpo &&
+                itinerarioTipo1.Cuerpo.trim() !== ""
+              ) {
                 return (
                   <div className="mb-4 text-justify">
                     <p>{itinerarioTipo1.Cuerpo}</p>
@@ -90,10 +95,11 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
               } else {
                 // Si no tiene información, mostrar video
                 return (
-                  <div dangerouslySetInnerHTML={{ __html: data?.Video || "" }} />
+                  <div
+                    dangerouslySetInnerHTML={{ __html: data?.Video || "" }}
+                  />
                 );
               }
-              
             })()}
           </div>
         </div>

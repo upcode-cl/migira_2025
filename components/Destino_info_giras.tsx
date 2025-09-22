@@ -68,7 +68,7 @@ const Destinos_info_giras = ({
           </div>
         </h4>
         <h3 className="text-xl font-bold text-[#58167D]">
-          <div className="flex text-[16px] ">
+          <div className="flex text-[24px] ">
             {Hotels === undefined ? (
               <span>(Confirmar con Agente)</span>
             ) : (
@@ -82,7 +82,7 @@ const Destinos_info_giras = ({
         </h3>
 
         <h5 className="pt-6 text-sm">Desde</h5>
-        <h4 className="text-xl pb-2 font-bold text-[#58167D]">
+        <h4 className="text-3xl pb-2 font-bold text-[#58167D]">
           USD {precioFormateado}
         </h4>
         <small className="text-[14px] mb-2 font-bold">

@@ -83,11 +83,21 @@ const Menu = () => {
               <SheetTitle></SheetTitle>
 
               <SheetDescription>
-                <li className="animacion-botones">Home</li>
-                <li className="animacion-botones">Paquetes</li>
-                <li className="animacion-botones">Lujos</li>
-                <li className="animacion-botones">Cruceros</li>
-                <li className="animacion-botones">Contacto</li>
+                <Link href="/">
+                  <li className="animacion-botones">Home</li>
+                </Link>
+                <Link href="/paquetes">
+                  <li className="animacion-botones">Paquetes</li>
+                </Link>
+                <Link href="/lujos">
+                  <li className="animacion-botones">Lujos</li>
+                </Link>
+                <Link href="/cruceros">
+                  <li className="animacion-botones">Cruceros</li>
+                </Link>
+                <Link href="/">
+                  <li className="animacion-botones">Contacto</li>
+                </Link>
               </SheetDescription>
             </SheetHeader>
           </SheetContent>
@@ -110,7 +120,7 @@ const Menu = () => {
         </Link>
       </div>
       <div className="flex justify-around gap-[100px] ">
-        <div className=" w-[60%] ">
+        <nav className=" w-[60%] ">
           <ul className="hidden md:flex gap-3.5 justify-around text-white  ">
             <Link href="/">
               {" "}
@@ -152,13 +162,13 @@ const Menu = () => {
               Contacto
             </li>
           </ul>
-        </div>
+        </nav>
         {/* menu movil */}
 
         <div className="hidden md:flex items-center justify-baseline w-[35%]">
           <p className="text-white text-[12px] ">
-            {fecha} <br /> cambio contado: {cambio?.CambioContado} - cambio crédito:{" "}
-            {cambio?.CambioCredito}
+            {fecha} <br /> cambio contado: {cambio?.CambioContado} - cambio
+            crédito: {cambio?.CambioCredito}
           </p>
         </div>
       </div>
