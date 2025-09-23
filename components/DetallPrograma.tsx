@@ -143,8 +143,12 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
                     Habitación
                   </th>
                   <th className="px-6 py-3 font-semibold text-purple-800">
-                    Precio
+                    Precio USD
                   </th>
+                  <th className="px-6 py-3 font-semibold text-purple-800">
+                    Precio CLP
+                  </th>
+
                   <th className="px-6 py-3 font-semibold text-purple-800">
                     Detalles
                   </th>
@@ -173,6 +177,17 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
                         <Check className="mr-2 text-purple-600 w-4 flex-shrink-0" />
                         <span className="font-semibold text-green-600">
                           USD {formatNumber(valor?.Precio || 0)}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center">
+                        <Check className="mr-2 text-purple-600 w-4 flex-shrink-0" />
+                        <span className="font-semibold text-green-600">
+                          CLP $
+                          {formatNumber(
+                            (data?.Precio || 0) * cambioContadoValue
+                          )}
                         </span>
                       </div>
                     </td>
