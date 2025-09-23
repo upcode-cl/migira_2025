@@ -95,9 +95,12 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
               } else {
                 // Si no tiene información, mostrar video
                 return (
-                  <div
-                    dangerouslySetInnerHTML={{ __html: data?.Video || "" }}
-                  />
+                  <div className="relative md:w-1/2 aspect-video overflow-hidden rounded-md">
+                    <div
+                      className="absolute top-0 left-0 w-full h-full [&>iframe]:w-full [&>iframe]:h-full"
+                      dangerouslySetInnerHTML={{ __html: data?.Video || "" }}
+                    />
+                  </div>
                 );
               }
             })()}
