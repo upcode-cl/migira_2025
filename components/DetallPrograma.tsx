@@ -57,8 +57,8 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
         />
       </div>
 
-      <div className="flex w-[95%] md:w-[80%] mx-auto flex-col md:flex-row justify-between">
-        <div className="justify-start mx-auto w-[80%] flex flex-col mt-4">
+      <div className="flex w-[95%] md:w-[80%] mx-auto flex-col md:flex-row gap-6 justify-between">
+        <div className="justify-start mx-auto w-[100%] flex flex-col mt-4">
           {/* Contenedor para el título con el icono MapPin */}
           <div className="flex items-center">
             <MapPin className="font-bold mr-2" />
