@@ -5,6 +5,7 @@ import Destinos from "@/components/Destinos";
 //import Menu from "@/components/Menu";
 import Slider from "@/components/Slider";
 import Giras from "@/components/Giras";
+import Contacto from "@/components/Contacto";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Beneficios />
       <Destinos />
       {/* <Formulario /> */}
+      <Contacto />
     </div>
   );
 }

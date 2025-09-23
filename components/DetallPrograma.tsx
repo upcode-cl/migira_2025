@@ -57,7 +57,7 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
         />
       </div>
 
-      <div className="flex w-[80%] mx-auto">
+      <div className="flex w-[95%] md:w-[80%] mx-auto flex-col md:flex-row justify-between">
         <div className="justify-start mx-auto w-[80%] flex flex-col mt-4">
           {/* Contenedor para el título con el icono MapPin */}
           <div className="flex items-center">
@@ -68,12 +68,12 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
           {data.Subtitulo && (
             <div className="text-3xl flex items-center">
               <Hotel className="bg-[#58167D] p-1 text-white rounded-md mr-2" />
-              <span>{data?.Subtitulo ?? "Sin información disponible"}</span>
+              <span>{data?.Subtitulo ?? "Sin información disponible"} </span>
             </div>
           )}
 
           {/* Info destino */}
-          <div className="mt-2 w-[95%]">
+          <div className="mt-2 w-[100%]">
             <h2 className="font-bold">Información del Destino</h2>
             {(() => {
               // Buscar itinerario de tipo "1"
@@ -117,7 +117,7 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
             USD {formatNumber(data?.Precio || 0)}
           </span>
           <small className="text-[14px]">
-            ${formatNumber((data?.Precio || 0) * cambioContadoValue)}
+            CLP ${formatNumber((data?.Precio || 0) * cambioContadoValue)}
           </small>
           <span>Incluye impuestos, tasas y cargos</span>
         </div>
@@ -186,7 +186,7 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
                         <span className="font-semibold text-green-600">
                           CLP $
                           {formatNumber(
-                            (data?.Precio || 0) * cambioContadoValue
+                            (valor?.Precio || 0) * cambioContadoValue
                           )}
                         </span>
                       </div>
@@ -207,20 +207,26 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
 
       {/* Incluye */}
       {data?.Incluyes?.length > 0 && (
-        <div className="w-[80%] mx-auto mt-4 border-2 border-black/10 rounded-md p-4 flex gap-2 justify-between">
-          <div>
+        <div className="w-[80%] mx-auto mt-4 border-2 border-black/10 rounded-md p-4 flex flex-col md:flex-row gap-4 justify-between">
+          <div className="md:w-1/2">
             <h2 className="bg-[#58167D] p-2 rounded-md text-white">
               El programa Incluye
             </h2>
             <ul className="list-none mt-2">
               {data.Incluyes.map((inc, idx) => (
                 <li key={idx} className="flex items-center text-justify">
-                  <Check className="mr-2 text-amber-500 w-4" /> {inc.Texto}
+                  <Check className="mr-2 text-amber-500 w-4 flex-shrink-0" />{" "}
+                  <span>{inc.Texto}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <div dangerouslySetInnerHTML={{ __html: data?.Video || "" }} />
+          <div className="relative md:w-1/2 aspect-video overflow-hidden rounded-md">
+            <div
+              className="absolute top-0 left-0 w-full h-full [&>iframe]:w-full [&>iframe]:h-full"
+              dangerouslySetInnerHTML={{ __html: data?.Video || "" }}
+            />
+          </div>
         </div>
       )}
 
