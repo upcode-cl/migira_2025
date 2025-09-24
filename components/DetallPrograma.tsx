@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Hotel, Star, Check, MapPin } from "lucide-react";
-import { Flight, Program, ResponseExchange } from "@/app/interfaces/interfaces";
+import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 import { formatNumber } from "@/utils/number-formatter";
 import { Exchange } from "@/app/api/Services";
 
