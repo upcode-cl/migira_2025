@@ -5,7 +5,8 @@ import Image from "next/image";
 import { Hotel, Star, Check, MapPin } from "lucide-react";
 import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 import { formatNumber } from "@/utils/number-formatter";
-import { Exchange } from "@/app/api/Services";
+import { Exchange, getPrograma } from "@/app/api/Services";
+import { get } from "http";
 
 export default function DetallePrograma({ programa }: { programa: Program }) {
   const [data, setData] = useState<Program>(programa);
@@ -24,6 +25,8 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
     FechaDesde: "",
     FechaHasta: "",
   });
+
+  // function getProgramas() {}
 
   const exChange = async () => {
     try {
@@ -125,7 +128,55 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
           <span>Incluye impuestos, tasas y cargos</span>
         </div>
       </div>
-
+      {/* VUELOS - Se renderiza solo si hay vuelos */}
+      <div className="flex flex-wrap justify-center gap-8 w-[90%] mx-auto">
+        {data?.Vuelos?.length > 0 &&
+          data.Vuelos.map((grupoVuelo) => (
+            <div
+              key={grupoVuelo.IdPrograma}
+              className="w-full md:w-auto mt-6 mb-8 overflow-hidden rounded-xl shadow-lg"
+            >
+              <div className="bg-gradient-to-r bg-[#58167D] px-6 py-4">
+                <h2 className="text-xl font-semibold text-white text-center">
+                  {grupoVuelo.TextoFecha}
+                </h2>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-center">
+                  <thead className="bg-purple-50">
+                    <tr className="text-left">
+                      <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                        Vuelo
+                      </th>
+                      <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                        Ruta
+                      </th>
+                      <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                        Sale
+                      </th>
+                      <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                        Llega
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {grupoVuelo.Detalle.map((detalleVuelo) => (
+                      <tr
+                        key={detalleVuelo.Id}
+                        className="transition-colors hover:bg-purple-50/50"
+                      >
+                        <td className="px-6 py-4">{detalleVuelo.Vuelo}</td>
+                        <td className="px-6 py-4">{detalleVuelo.Ruta}</td>
+                        <td className="px-6 py-4">{detalleVuelo.Sale}</td>
+                        <td className="px-6 py-4">{detalleVuelo.Llega}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+      </div>
       {/* Valores del programa */}
       {data?.ValoresProgramas?.length > 0 && (
         <div className="w-[80%] mx-auto mt-6 mb-8 overflow-hidden rounded-xl shadow-lg">
