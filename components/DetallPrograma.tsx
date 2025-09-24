@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Hotel, Star, Check, MapPin } from "lucide-react";
-import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
+import { Flight, Program, ResponseExchange } from "@/app/interfaces/interfaces";
 import { formatNumber } from "@/utils/number-formatter";
 import { Exchange } from "@/app/api/Services";
 
@@ -157,7 +157,7 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {grupoVuelo.Detalle.map((detalleVuelo) => (
+                    {grupoVuelo?.Detalle.map((detalleVuelo) => (
                       <tr
                         key={detalleVuelo.Id}
                         className="transition-colors hover:bg-purple-50/50"

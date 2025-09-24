@@ -73,7 +73,7 @@ export interface Program{
     Aerolinea: string | '';     
     Incluyes: Include[] | [];
     Itinerarios: Itinerario[] | [];
-    Vuelos: Flight[] | [];
+    Vuelos: Bloqueos[] | [];
     ValoresProgramas: ValueProgram[] | [];
     Condiciones: Conditions[] | [];
     Actividades: Activity[] | [];
@@ -88,7 +88,7 @@ export interface Flight{
     Llega: string | '';
     Salidas: number | '';
     TextoFecha: string | '';
-    Detalle: any[] | [] ;
+    
 };
 
 
@@ -157,3 +157,25 @@ export interface ApiResponseAuth{
     IdImageCloudinary: string | '';
 };
 
+export interface Bloqueos	{
+				Id: number | undefined,
+				IdPrograma: number,
+				TextoFecha: string,
+				Activo: boolean,
+				FechaActualizacion: Date,
+				IdUsuario: number,
+				Detalle: Detalle[]
+};
+
+export interface Detalle{
+						Id: number | undefined,
+						IdBloqueo: number | undefined,
+						Correlativo: number | undefined,
+						Vuelo: string | undefined,
+						Ruta: string | undefined,
+						Sale: string | undefined,
+						Llega: string | undefined,
+						Activo: boolean | undefined,
+						FechaActualizacion: Date | undefined,
+						IdUsuario: number | undefined
+					}
