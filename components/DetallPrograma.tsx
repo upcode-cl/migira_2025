@@ -157,7 +157,7 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {grupoVuelo.Detalle.map((detalleVuelo: any) => (
+                    {grupoVuelo.Detalle.map((detalleVuelo) => (
                       <tr
                         key={detalleVuelo.Id}
                         className="transition-colors hover:bg-purple-50/50"
