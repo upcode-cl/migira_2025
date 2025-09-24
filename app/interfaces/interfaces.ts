@@ -170,7 +170,7 @@ export interface Bloqueos	{
 export interface Detalle{
 						Id: number | undefined,
 						IdBloqueo: number | undefined,
-						Correlativo: number | undefined,
+						Correlativo: number | 0,
 						Vuelo: string | undefined,
 						Ruta: string | undefined,
 						Sale: string | undefined,

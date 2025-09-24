@@ -3,7 +3,12 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Hotel, Star, Check, MapPin } from "lucide-react";
-import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
+import {
+  Bloqueos,
+  Detalle,
+  Program,
+  ResponseExchange,
+} from "@/app/interfaces/interfaces";
 import { formatNumber } from "@/utils/number-formatter";
 import { Exchange } from "@/app/api/Services";
 
@@ -43,6 +48,106 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
   // Se convierte el valor de cambio a número, reemplazando la coma por un punto si es necesario.
   const cambioContadoValue =
     Number(String(cambio?.CambioContado || "0").replace(",", ".")) || 0;
+
+  const TituloBloqueos = ({
+    SetSalidaVencida,
+    children,
+  }: {
+    SetSalidaVencida: (value: boolean) => void;
+    children: React.ReactNode;
+  }) => {
+    const tituloSplit: string[] | undefined = children?.toString().split(" ");
+
+    return (
+      <>
+        {tituloSplit?.map((piece, index) => {
+          if (piece.startsWith("*")) {
+            SetSalidaVencida(true);
+            return (
+              <span
+                key={index}
+                style={{ color: "red", textDecorationLine: "line-through" }}
+              >
+                {piece.substr(1)}{" "}
+              </span>
+            );
+          } else {
+            return <span key={index}>{piece} </span>;
+          }
+        })}
+      </>
+    );
+  };
+
+  // Espacios Confirmados
+
+  const EspaciosConfirmados = ({ Bloqueos }: { Bloqueos: Bloqueos[] }) => {
+    const [salidaVencida, setSalidaVencida] = useState(false);
+
+    if (Bloqueos.length > 0) {
+      return (
+        <>
+          {Bloqueos.map((bloqueo, index) => {
+            return (
+              <div key={index} className="col-md-4 text-center">
+                <table>
+                  <thead>
+                    <tr>
+                      <th colSpan={4} className="text-center-programa">
+                        <TituloBloqueos SetSalidaVencida={setSalidaVencida}>
+                          {bloqueo.TextoFecha}
+                        </TituloBloqueos>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th className="text-center-programa">Vuelo</th>
+                      <th className="text-center-programa">Ruta</th>
+                      <th className="text-center-programa">Sale</th>
+                      <th className="text-center-programa">Llega</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {bloqueo.Detalle.sort(
+                      (a: Detalle, b: Detalle) => a.Correlativo - b.Correlativo
+                    ).map((detalle, i) => {
+                      return (
+                        <tr key={index + i}>
+                          <td align="center">{detalle.Vuelo}</td>
+                          <td align="center">{detalle.Ruta}</td>
+                          <td align="center">{detalle.Sale}</td>
+                          <td align="center">{detalle.Llega}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            );
+          })}
+          <div className="col-lg-12 col-md-12 col-xs-12">
+            <div className="row-programa justify-content-center-programa align-items-center-programa">
+              <div className="container-programa">
+                {salidaVencida ? (
+                  <span
+                    className=""
+                    style={{
+                      color: "red",
+                      fontSize: "13px",
+                      textAlign: "center",
+                    }}
+                  >
+                    (-) Salida totalmente vendida
+                  </span>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  };
 
   return (
     <div>
@@ -125,7 +230,9 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
           <span>Incluye impuestos, tasas y cargos</span>
         </div>
       </div>
+
       {/* VUELOS - Se renderiza solo si hay vuelos */}
+      {EspaciosConfirmados({ Bloqueos: data?.Vuelos || [] })}
       <div className="flex flex-wrap justify-center gap-8 w-[90%] mx-auto">
         {data?.Vuelos?.length > 0 &&
           data.Vuelos.map((grupoVuelo) => (
@@ -174,6 +281,7 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
             </div>
           ))}
       </div>
+
       {/* Valores del programa */}
       {data?.ValoresProgramas?.length > 0 && (
         <div className="w-[80%] mx-auto mt-6 mb-8 overflow-hidden rounded-xl shadow-lg">
