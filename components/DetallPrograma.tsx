@@ -5,8 +5,7 @@ import Image from "next/image";
 import { Hotel, Star, Check, MapPin } from "lucide-react";
 import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 import { formatNumber } from "@/utils/number-formatter";
-import { Exchange, getPrograma } from "@/app/api/Services";
-import { get } from "http";
+import { Exchange } from "@/app/api/Services";
 
 export default function DetallePrograma({ programa }: { programa: Program }) {
   const [data, setData] = useState<Program>(programa);
@@ -25,8 +24,6 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
     FechaDesde: "",
     FechaHasta: "",
   });
-
-  // function getProgramas() {}
 
   const exChange = async () => {
     try {
@@ -138,7 +135,7 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
             >
               <div className="bg-gradient-to-r bg-[#58167D] px-6 py-4">
                 <h2 className="text-xl font-semibold text-white text-center">
-                  {grupoVuelo.TextoFecha}
+                  {grupoVuelo?.TextoFecha ?? ""}
                 </h2>
               </div>
               <div className="overflow-x-auto">
@@ -160,7 +157,7 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {grupoVuelo.Detalle.map((detalleVuelo) => (
+                    {grupoVuelo.Detalle.map((detalleVuelo: any) => (
                       <tr
                         key={detalleVuelo.Id}
                         className="transition-colors hover:bg-purple-50/50"

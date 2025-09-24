@@ -87,7 +87,11 @@ export interface Flight{
     Sale: string | '';
     Llega: string | '';
     Salidas: number | '';
+    TextoFecha: string | '';
+    Detalle: any[] | [] ;
 };
+
+
 export interface ValueProgram{
     IdValor: number | 0;
     IdHotel: number | 0;
