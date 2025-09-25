@@ -1,5 +1,5 @@
 "use client";
-import { Exchange2, getLujos } from "@/app/api/Services";
+import { Exchange, getLujos } from "@/app/api/Services";
 import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 import React, { useEffect, useState } from "react";
 import Destinos_info_giras from "../../components/Destino_info_giras";
@@ -10,57 +10,45 @@ const Lujos = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // funcion que trabaja con la API para traer las giras de estudio
-  const girasDeEstudio = async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  useEffect(() => {
+    const cargarDatos = async () => {
+      try {
+        setError(null);
+        setLoading(true);
+        // Ejecutamos ambas peticiones en paralelo para mayor eficiencia
+        const [lujosResponse, exchangeResponse] = await Promise.all([
+          getLujos(),
+          Exchange(),
+        ]);
 
-      // Ejecutamos ambas promesas en paralelo para mayor eficiencia
-      const response = await getLujos();
-
-      // Verificamos y actualizamos los estados solo si ambas peticiones fueron exitosas
-      if (response.statusCode === 200) {
-        setProgramasGiras(response.value.entities);
-      } else {
-        // Si algo falla, lanzamos un error para que lo capture el catch
-        throw new Error(
-          "No se pudieron cargar los datos de giras o el tipo de cambio."
+        if (lujosResponse.statusCode === 200) {
+          setProgramasGiras(lujosResponse.value.entities);
+        } else {
+          throw new Error("No se pudieron cargar los datos de Lujos.");
+        }
+        setCambio(exchangeResponse);
+      } catch (err) {
+        console.error("Error fetching data in Lujos component:", err);
+        setError(
+          "Hubo un problema al cargar la información. Por favor, intenta de nuevo más tarde."
         );
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("Error fetching data in Giras component:", err);
-      setError(
-        "Hubo un problema al cargar la información. Por favor, intenta de nuevo más tarde."
-      );
-    } finally {
-      // Ocultamos el loader, ya sea que todo fue bien o mal
-      setLoading(false);
-    }
-  };
-
-  const obtenerGiras = async () => {
-    try {
-      const exchangeResponse = await Exchange2();
-      setCambio(exchangeResponse);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  useEffect(() => {
-    // llamamos a la función para cargar las giras de estudio
-    setTimeout(() => {
-      girasDeEstudio();
-    }, 1000);
+    };
+    cargarDatos();
   }, []);
 
-  useEffect(() => {
-    obtenerGiras();
-  }, []);
-
-  if (loading) {
-    return <div className="text-center p-20">Cargando programas...</div>;
-  }
+  const SkeletonCard = () => (
+    <div className="flex flex-col space-y-3">
+      <div className="h-56 w-full rounded-xl bg-gray-200 animate-pulse" />
+      <div className="space-y-2">
+        <div className="h-6 w-3/4 rounded bg-gray-200 animate-pulse" />
+        <div className="h-4 w-1/2 rounded bg-gray-200 animate-pulse" />
+        <div className="h-4 w-1/4 rounded bg-gray-200 animate-pulse" />
+      </div>
+    </div>
+  );
 
   if (error) {
     return <div className="text-center p-20 text-red-600">{error}</div>;
@@ -87,20 +75,24 @@ const Lujos = () => {
             className="w-full h-full"
           ></iframe> */}
       <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-10 pl-4 pr-4 lg:pl-28  lg:pr-28 pt-[50px] pb-10">
-        {programasGiras.map((programas: Program) => (
-          <Destinos_info_giras
-            key={programas.IdPrograma}
-            Titulo={programas.Titulo}
-            Dias={programas.Dias.toString()}
-            Noches={programas.Noches.toString()}
-            Precio={programas.Precio.toString()}
-            Hotels={programas.ValoresProgramas[0]?.Hotel}
-            ValorPersona={programas.ValoresProgramas[0]?.Text}
-            ImagenDestino={programas.UrlImage}
-            IdPrograma={programas.IdPrograma}
-            cambio={cambio}
-          />
-        ))}
+        {loading
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <SkeletonCard key={index} />
+            ))
+          : programasGiras.map((programas: Program) => (
+              <Destinos_info_giras
+                key={programas.IdPrograma}
+                Titulo={programas.Titulo}
+                Dias={programas.Dias.toString()}
+                Noches={programas.Noches.toString()}
+                Precio={programas.Precio.toString()}
+                Hotels={programas.ValoresProgramas[0]?.Hotel}
+                ValorPersona={programas.ValoresProgramas[0]?.Text}
+                ImagenDestino={programas.UrlImage}
+                IdPrograma={programas.IdPrograma}
+                cambio={cambio}
+              />
+            ))}
       </div>
       {/* </div> */}
     </div>

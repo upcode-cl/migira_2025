@@ -2,57 +2,53 @@
 import { Exchange, getProgramaListadoDetalle } from "@/app/api/Services";
 import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 import Destinos_info from "@/components/Destinos_info";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {
-  params: Promise<{ idArea: string; idListado: string }>;
+  params: { idArea: string; idListado: string };
 };
 
 const Page = ({ params }: Props) => {
   const [programas, setProgramas] = useState<Program[]>([]);
-  const [resolvedParams, setResolvedParams] = useState<{
-    idArea: string;
-    idListado: string;
-  } | null>(null);
-
   const [cambio, setCambio] = useState<ResponseExchange | undefined>();
+  const [loading, setLoading] = useState(true);
+  const { idArea, idListado } = params;
 
   useEffect(() => {
-    const resolveParams = async () => {
-      const resolved = await params;
-      setResolvedParams(resolved);
+    const llamarProgramas = async () => {
+      if (!idArea || !idListado) return;
+
+      try {
+        setLoading(true);
+        const [response, exchangeResponse] = await Promise.all([
+          getProgramaListadoDetalle(Number(idArea), Number(idListado)),
+          Exchange(),
+        ]);
+
+        if (response.statusCode === 200) {
+          setProgramas(response.value.entities);
+          setCambio(exchangeResponse);
+        }
+      } catch (error) {
+        console.error("Error al cargar los programas:", error);
+      } finally {
+        setLoading(false);
+      }
     };
-    resolveParams();
-  }, [params]);
 
-  const llamarProgramas = useCallback(async () => {
-    if (!resolvedParams) return;
+    llamarProgramas();
+  }, [idArea, idListado]);
 
-    const response = await getProgramaListadoDetalle(
-      Number(resolvedParams.idArea),
-      Number(resolvedParams.idListado)
-    );
-    const exchangeResponse = await Exchange();
-
-    if (response.statusCode === 200) {
-      setProgramas(response.value.entities);
-      setCambio(exchangeResponse);
-    }
-  }, [resolvedParams]);
-
-  useEffect(() => {
-    if (resolvedParams) {
-      llamarProgramas();
-    }
-  }, [llamarProgramas, resolvedParams]);
-
-  if (!resolvedParams) {
-    return (
-      <div className="bg-white mb-10 flex justify-center items-center min-h-[400px]">
-        <div className="text-[#58167D] text-xl">Cargando...</div>
+  const SkeletonCard = () => (
+    <div className="flex flex-col space-y-3">
+      <div className="h-56 w-full rounded-xl bg-gray-200 animate-pulse" />
+      <div className="space-y-2">
+        <div className="h-6 w-3/4 rounded bg-gray-200 animate-pulse" />
+        <div className="h-4 w-1/2 rounded bg-gray-200 animate-pulse" />
+        <div className="h-4 w-1/4 rounded bg-gray-200 animate-pulse" />
       </div>
-    );
-  }
+    </div>
+  );
 
   return (
     <div className=" bg-white mb-10 ">
@@ -60,20 +56,24 @@ const Page = ({ params }: Props) => {
         Nuestros destinos más populares
       </h2>
       <div className="grid grid-col-1 lg:grid-cols-3 md:grid-cols-2 gap-10 pl-4 pr-4 lg:pl-28  lg:pr-28 pt-[50px] ">
-        {programas.map((programa: Program) => (
-          <Destinos_info
-            key={programa.IdPrograma}
-            Titulo={programa.Titulo}
-            Dias={programa.Dias.toString()}
-            Noches={programa.Noches.toString()}
-            Precio={programa.Precio.toString()}
-            Hotels={programa.ValoresProgramas[0]?.Hotel}
-            ValorPersona={programa.ValoresProgramas[0]?.Text}
-            ImagenDestino={programa.UrlImage}
-            IdPrograma={programa.IdPrograma}
-            cambio={cambio}
-          />
-        ))}
+        {loading
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <SkeletonCard key={index} />
+            ))
+          : programas.map((programa: Program) => (
+              <Destinos_info
+                key={programa.IdPrograma}
+                Titulo={programa.Titulo}
+                Dias={programa.Dias.toString()}
+                Noches={programa.Noches.toString()}
+                Precio={programa.Precio.toString()}
+                Hotels={programa.ValoresProgramas[0]?.Hotel}
+                ValorPersona={programa.ValoresProgramas[0]?.Text}
+                ImagenDestino={programa.UrlImage}
+                IdPrograma={programa.IdPrograma}
+                cambio={cambio}
+              />
+            ))}
       </div>
     </div>
   );

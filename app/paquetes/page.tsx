@@ -1,15 +1,39 @@
-import DestinoPaquetes from "@/components/DestinoPaquetes";
+"use client";
 
+import DestinoPaquetes from "@/components/DestinoPaquetes";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Area } from "@/app/interfaces/interfaces";
 import { getAreas } from "../api/Services";
 import Link from "next/link";
 
-const Paquetes = async () => {
-  const response = await getAreas();
-  const areas = response.value.entities;
-  console.log(areas, "estas son areas");
+const Paquetes = () => {
+  const [areas, setAreas] = useState<Area[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAreas = async () => {
+      try {
+        setLoading(true);
+        const response = await getAreas();
+        if (response.statusCode === 200) {
+          setAreas(response.value.entities);
+        }
+      } catch (error) {
+        console.error("Error al cargar las áreas:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAreas();
+  }, []);
+
+  const SkeletonCard = () => (
+    <div className="w-[250px] h-[300px] bg-gray-200 rounded-2xl animate-pulse p-4 flex flex-col justify-end">
+      <div className="h-6 w-3/4 bg-gray-300 rounded" />
+    </div>
+  );
+
   return (
     <div className="">
       {/* banner */}
@@ -32,11 +56,15 @@ const Paquetes = async () => {
       {/* paquetes */}
 
       <div className="flex flex-wrap gap-6 mt-6 justify-center pb-5">
-        {areas.map((area: Area) => (
-          <Link href={`/paquetes/${area.IdArea}`} key={area.IdArea}>
-            <DestinoPaquetes areas={area} key={area.IdArea} />
-          </Link>
-        ))}
+        {loading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <SkeletonCard key={index} />
+            ))
+          : areas.map((area: Area) => (
+              <Link href={`/paquetes/${area.IdArea}`} key={area.IdArea}>
+                <DestinoPaquetes areas={area} />
+              </Link>
+            ))}
       </div>
     </div>
   );

@@ -6,21 +6,39 @@ import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 
 const Destinos = () => {
   const [programas, setProgramas] = useState<Program[]>([]);
+  const [loading, setLoading] = useState(true);
   const [cambio, setCambio] = useState<ResponseExchange | undefined>();
 
   const llamarProgramas = async () => {
-    const response = await getProgramasDestacados();
-    const exchangeResponse = await Exchange();
+    try {
+      const response = await getProgramasDestacados();
+      const exchangeResponse = await Exchange();
 
-    if (response.statusCode === 200) {
-      setProgramas(response.value.entities);
-      setCambio(exchangeResponse);
+      if (response.statusCode === 200) {
+        setProgramas(response.value.entities);
+        setCambio(exchangeResponse);
+      }
+    } catch (error) {
+      console.error("Error al cargar los programas:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     llamarProgramas();
   }, []);
+
+  const SkeletonCard = () => (
+    <div className="flex flex-col space-y-3">
+      <div className="h-56 w-full rounded-xl bg-gray-200 animate-pulse" />
+      <div className="space-y-2">
+        <div className="h-6 w-3/4 rounded bg-gray-200 animate-pulse" />
+        <div className="h-4 w-1/2 rounded bg-gray-200 animate-pulse" />
+        <div className="h-4 w-1/4 rounded bg-gray-200 animate-pulse" />
+      </div>
+    </div>
+  );
 
   return (
     <div className=" bg-white mb-10">
@@ -31,20 +49,24 @@ const Destinos = () => {
         </h2>
       </div>
       <div className="grid grid-col-1 lg:grid-cols-3 md:grid-cols-2 gap-10 pl-4 pr-4 lg:pl-28  lg:pr-28 pt-[50px] ">
-        {programas.map((programa: Program) => (
-          <Destinos_info
-            key={programa.IdPrograma}
-            Titulo={programa.Titulo}
-            Dias={programa.Dias.toString()}
-            Noches={programa.Noches.toString()}
-            Precio={programa.Precio.toString()}
-            Hotels={programa.ValoresProgramas[0]?.Hotel}
-            ValorPersona={programa.ValoresProgramas[0]?.Text}
-            ImagenDestino={programa.UrlImage}
-            IdPrograma={programa.IdPrograma}
-            cambio={cambio}
-          />
-        ))}
+        {loading
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <SkeletonCard key={index} />
+            ))
+          : programas.map((programa: Program) => (
+              <Destinos_info
+                key={programa.IdPrograma}
+                Titulo={programa.Titulo}
+                Dias={programa.Dias.toString()}
+                Noches={programa.Noches.toString()}
+                Precio={programa.Precio.toString()}
+                Hotels={programa.ValoresProgramas[0]?.Hotel}
+                ValorPersona={programa.ValoresProgramas[0]?.Text}
+                ImagenDestino={programa.UrlImage}
+                IdPrograma={programa.IdPrograma}
+                cambio={cambio}
+              />
+            ))}
       </div>
     </div>
   );
