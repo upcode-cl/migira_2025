@@ -88,56 +88,58 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
       return (
         <div className="w-[90%] mx-auto">
           <div className="flex flex-wrap justify-center gap-8">
-            {Bloqueos.map((bloqueo) => (
-              <div
-                key={bloqueo.IdPrograma}
-                className="w-full md:w-auto mt-6 mb-8 overflow-hidden rounded-xl shadow-lg"
-              >
-                <div className="bg-gradient-to-r bg-[#58167D] px-6 py-4">
-                  <h2 className="text-xl font-semibold text-white text-center">
-                    <TituloBloqueos SetSalidaVencida={setSalidaVencida}>
-                      {bloqueo.TextoFecha}
-                    </TituloBloqueos>
-                  </h2>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-center">
-                    <thead className="bg-purple-50">
-                      <tr className="text-left">
-                        <th className="px-6 py-3 font-semibold text-purple-800 text-center">
-                          Vuelo
-                        </th>
-                        <th className="px-6 py-3 font-semibold text-purple-800 text-center">
-                          Ruta
-                        </th>
-                        <th className="px-6 py-3 font-semibold text-purple-800 text-center">
-                          Sale
-                        </th>
-                        <th className="px-6 py-3 font-semibold text-purple-800 text-center">
-                          Llega
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {bloqueo.Detalle.sort(
-                        (a: Detalle, b: Detalle) =>
-                          a.Correlativo - b.Correlativo
-                      ).map((detalle) => (
-                        <tr
-                          key={detalle.Id}
-                          className="transition-colors hover:bg-purple-50/50"
-                        >
-                          <td className="px-6 py-4">{detalle.Vuelo}</td>
-                          <td className="px-6 py-4">{detalle.Ruta}</td>
-                          <td className="px-6 py-4">{detalle.Sale}</td>
-                          <td className="px-6 py-4">{detalle.Llega}</td>
+            {Bloqueos.sort((a, b) => (a.Id ?? 0) - (b.Id ?? 0)).map(
+              (bloqueo) => (
+                <div
+                  key={bloqueo.IdPrograma}
+                  className="w-full md:w-auto mt-6 mb-8 overflow-hidden rounded-xl shadow-lg"
+                >
+                  <div className="bg-gradient-to-r bg-[#58167D] px-6 py-4">
+                    <h2 className="text-xl font-semibold text-white text-center">
+                      <TituloBloqueos SetSalidaVencida={setSalidaVencida}>
+                        {bloqueo.TextoFecha}
+                      </TituloBloqueos>
+                    </h2>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-center">
+                      <thead className="bg-purple-50">
+                        <tr className="text-left">
+                          <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                            Vuelo
+                          </th>
+                          <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                            Ruta
+                          </th>
+                          <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                            Sale
+                          </th>
+                          <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                            Llega
+                          </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {bloqueo.Detalle.sort(
+                          (a: Detalle, b: Detalle) =>
+                            a.Correlativo - b.Correlativo
+                        ).map((detalle) => (
+                          <tr
+                            key={detalle.Id}
+                            className="transition-colors hover:bg-purple-50/50"
+                          >
+                            <td className="px-6 py-4">{detalle.Vuelo}</td>
+                            <td className="px-6 py-4">{detalle.Ruta}</td>
+                            <td className="px-6 py-4">{detalle.Sale}</td>
+                            <td className="px-6 py-4">{detalle.Llega}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
           <div className="w-full text-center mt-4">
             {salidaVencida && (
