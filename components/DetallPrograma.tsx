@@ -86,63 +86,67 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
 
     if (Bloqueos.length > 0) {
       return (
-        <>
-          {Bloqueos.map((bloqueo, index) => {
-            return (
-              <div key={index} className="col-md-4 text-center">
-                <table>
-                  <thead>
-                    <tr>
-                      <th colSpan={4} className="text-center-programa">
-                        <TituloBloqueos SetSalidaVencida={setSalidaVencida}>
-                          {bloqueo.TextoFecha}
-                        </TituloBloqueos>
-                      </th>
-                    </tr>
-                    <tr>
-                      <th className="text-center-programa">Vuelo</th>
-                      <th className="text-center-programa">Ruta</th>
-                      <th className="text-center-programa">Sale</th>
-                      <th className="text-center-programa">Llega</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {bloqueo.Detalle.sort(
-                      (a: Detalle, b: Detalle) => a.Correlativo - b.Correlativo
-                    ).map((detalle, i) => {
-                      return (
-                        <tr key={index + i}>
-                          <td align="center">{detalle.Vuelo}</td>
-                          <td align="center">{detalle.Ruta}</td>
-                          <td align="center">{detalle.Sale}</td>
-                          <td align="center">{detalle.Llega}</td>
+        <div className="w-[90%] mx-auto">
+          <div className="flex flex-wrap justify-center gap-8">
+            {Bloqueos.map((bloqueo) => (
+              <div
+                key={bloqueo.IdPrograma}
+                className="w-full md:w-auto mt-6 mb-8 overflow-hidden rounded-xl shadow-lg"
+              >
+                <div className="bg-gradient-to-r bg-[#58167D] px-6 py-4">
+                  <h2 className="text-xl font-semibold text-white text-center">
+                    <TituloBloqueos SetSalidaVencida={setSalidaVencida}>
+                      {bloqueo.TextoFecha}
+                    </TituloBloqueos>
+                  </h2>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-center">
+                    <thead className="bg-purple-50">
+                      <tr className="text-left">
+                        <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                          Vuelo
+                        </th>
+                        <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                          Ruta
+                        </th>
+                        <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                          Sale
+                        </th>
+                        <th className="px-6 py-3 font-semibold text-purple-800 text-center">
+                          Llega
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {bloqueo.Detalle.sort(
+                        (a: Detalle, b: Detalle) =>
+                          a.Correlativo - b.Correlativo
+                      ).map((detalle) => (
+                        <tr
+                          key={detalle.Id}
+                          className="transition-colors hover:bg-purple-50/50"
+                        >
+                          <td className="px-6 py-4">{detalle.Vuelo}</td>
+                          <td className="px-6 py-4">{detalle.Ruta}</td>
+                          <td className="px-6 py-4">{detalle.Sale}</td>
+                          <td className="px-6 py-4">{detalle.Llega}</td>
                         </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            );
-          })}
-          <div className="col-lg-12 col-md-12 col-xs-12">
-            <div className="row-programa justify-content-center-programa align-items-center-programa">
-              <div className="container-programa">
-                {salidaVencida ? (
-                  <span
-                    className=""
-                    style={{
-                      color: "red",
-                      fontSize: "13px",
-                      textAlign: "center",
-                    }}
-                  >
-                    (-) Salida totalmente vendida
-                  </span>
-                ) : null}
-              </div>
-            </div>
+            ))}
           </div>
-        </>
+          <div className="w-full text-center mt-4">
+            {salidaVencida && (
+              <span style={{ color: "red", fontSize: "13px" }}>
+                (-) Salida totalmente vendida
+              </span>
+            )}
+          </div>
+        </div>
       );
     } else {
       return <></>;
@@ -233,54 +237,6 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
 
       {/* VUELOS - Se renderiza solo si hay vuelos */}
       {EspaciosConfirmados({ Bloqueos: data?.Vuelos || [] })}
-      <div className="flex flex-wrap justify-center gap-8 w-[90%] mx-auto">
-        {data?.Vuelos?.length > 0 &&
-          data.Vuelos.map((grupoVuelo) => (
-            <div
-              key={grupoVuelo.IdPrograma}
-              className="w-full md:w-auto mt-6 mb-8 overflow-hidden rounded-xl shadow-lg"
-            >
-              <div className="bg-gradient-to-r bg-[#58167D] px-6 py-4">
-                <h2 className="text-xl font-semibold text-white text-center">
-                  {grupoVuelo?.TextoFecha ?? ""}
-                </h2>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-center">
-                  <thead className="bg-purple-50">
-                    <tr className="text-left">
-                      <th className="px-6 py-3 font-semibold text-purple-800 text-center">
-                        Vuelo
-                      </th>
-                      <th className="px-6 py-3 font-semibold text-purple-800 text-center">
-                        Ruta
-                      </th>
-                      <th className="px-6 py-3 font-semibold text-purple-800 text-center">
-                        Sale
-                      </th>
-                      <th className="px-6 py-3 font-semibold text-purple-800 text-center">
-                        Llega
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {grupoVuelo?.Detalle.map((detalleVuelo) => (
-                      <tr
-                        key={detalleVuelo.Id}
-                        className="transition-colors hover:bg-purple-50/50"
-                      >
-                        <td className="px-6 py-4">{detalleVuelo.Vuelo}</td>
-                        <td className="px-6 py-4">{detalleVuelo.Ruta}</td>
-                        <td className="px-6 py-4">{detalleVuelo.Sale}</td>
-                        <td className="px-6 py-4">{detalleVuelo.Llega}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          ))}
-      </div>
 
       {/* Valores del programa */}
       {data?.ValoresProgramas?.length > 0 && (
