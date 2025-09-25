@@ -38,7 +38,12 @@ const Giras = () => {
       }
     };
 
-    cargarDatos();
+    const timer = setTimeout(() => {
+      cargarDatos();
+    }, 1000);
+
+    // Limpieza del temporizador si el componente se desmonta
+    return () => clearTimeout(timer);
   }, []);
 
   const SkeletonCard = () => (
