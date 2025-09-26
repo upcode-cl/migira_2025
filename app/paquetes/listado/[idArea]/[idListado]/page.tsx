@@ -2,17 +2,15 @@
 import { Exchange, getProgramaListadoDetalle } from "@/app/api/Services";
 import { Program, ResponseExchange } from "@/app/interfaces/interfaces";
 import Destinos_info from "@/components/Destinos_info";
+import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-type Props = {
-  params: { idArea: string; idListado: string };
-};
-
-const Page = ({ params }: Props) => {
+const Page = () => {
   const [programas, setProgramas] = useState<Program[]>([]);
   const [cambio, setCambio] = useState<ResponseExchange | undefined>();
   const [loading, setLoading] = useState(true);
-  const { idArea, idListado } = params;
+  const params = useParams<{ idArea: string; idListado: string }>();
+  const { idArea, idListado } = params || {};
 
   useEffect(() => {
     const llamarProgramas = async () => {
@@ -36,7 +34,12 @@ const Page = ({ params }: Props) => {
       }
     };
 
-    llamarProgramas();
+    const timer = setTimeout(() => {
+      llamarProgramas();
+    }, 1000);
+
+    // Limpieza del temporizador si el componente se desmonta
+    return () => clearTimeout(timer);
   }, [idArea, idListado]);
 
   const SkeletonCard = () => (
