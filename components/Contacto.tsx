@@ -20,15 +20,19 @@ const Contacto = () => {
         </div>
         <div className="font-semibold text-lg">
           {/* Aquí puedes poner un enlace o ícono de Instagram */}
-          INSTAGRAM
         </div>
         <div className="flex items-center justify-center gap-2 font-medium">
-          <Mail />
-          <span> contacto@migira.cl</span>
+          {/* <Mail /> */}
+          {/* <span> contacto@migira.cl</span> */}
         </div>
-        <div className="flex items-center justify-center gap-2 font-medium">
-          <PhoneCall /> <span>+56990895439</span>
-        </div>
+        <a
+          href="https://wa.me/56990895439"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 font-medium hover:underline"
+        >
+          <PhoneCall /> <span>whatsapp : (+56 9) 9089 5439</span>
+        </a>
       </div>
     </div>
   );
