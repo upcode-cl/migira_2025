@@ -1,6 +1,6 @@
 import React from "react";
 import { PhoneCall } from "lucide-react";
-import { Mail } from "lucide-react";
+
 import Image from "next/image";
 
 const Contacto = () => {
