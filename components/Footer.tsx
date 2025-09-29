@@ -149,7 +149,7 @@ const Footer = () => {
       </div>
 
       <div className="mt-10">
-        <p>© 2025: American Travel Tour</p>
+        <p>© 2025: Mi Gira SPA</p>
       </div>
       <div>
         <p className="text-xs">

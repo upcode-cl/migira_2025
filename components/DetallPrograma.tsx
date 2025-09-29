@@ -219,7 +219,7 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
         </div>
 
         {/* Valores */}
-        <div className="bg-gray-200 w-[80%] h-[200px] mx-auto flex flex-col mt-4 rounded-sm p-3 relative">
+        <div className="bg-gray-200 w-[80%] h-[240px] mx-auto flex flex-col mt-7 rounded-sm p-3 relative">
           <div className="bg-amber-300 p-2 absolute -top-5 right-0 rounded-md text-sm flex">
             <Star className="mr-2" /> {data?.Texto}
           </div>

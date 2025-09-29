@@ -34,6 +34,7 @@ const Page = () => {
       }
     };
 
+    llamarProgramas();
     const timer = setTimeout(() => {
       llamarProgramas();
     }, 1000);

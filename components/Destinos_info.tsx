@@ -102,7 +102,7 @@ const Destinos_info = ({
           </div>
         </div>
         <p className="pb-4">{ValorPersona}</p>
-        <button className="bg-yellow-400 p-3 w-[50 %] sm:w-[40%] rounded-full self-end hover:bg-amber-600 transition-all duration-150 cursor-pointer flex justify-center">
+        <button className="bg-yellow-400 p-3 w-[100%] sm:w-[100%] rounded-full self-end hover:bg-amber-600 transition-all duration-150 cursor-pointer flex justify-center">
           <Link
             href={`/detalle-programa/${IdPrograma}`}
             className="font-semibold"
