@@ -154,7 +154,7 @@ const Footer = () => {
       <div>
         <p className="text-xs">
           Sitio desarrollado por{" "}
-          <a href="www.upcode.cl" target="_blank">
+          <a href="https://upcode.cl" target="_blank">
             UP Code
           </a>
         </p>
