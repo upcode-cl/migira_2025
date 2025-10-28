@@ -50,23 +50,25 @@ const Destinos = () => {
       </div>
       <div className="grid grid-col-1 lg:grid-cols-3 md:grid-cols-2 gap-10 pl-4 pr-4 lg:pl-28  lg:pr-28 pt-[50px] ">
         {loading
-          ? Array.from({ length: 3 }).map((_, index) => (
+          ? Array.from({ length: 6 }).map((_, index) => (
               <SkeletonCard key={index} />
             ))
-          : programas.map((programa: Program) => (
-              <Destinos_info
-                key={programa.IdPrograma}
-                Titulo={programa.Titulo}
-                Dias={programa.Dias.toString()}
-                Noches={programa.Noches.toString()}
-                Precio={programa.Precio.toString()}
-                Hotels={programa.ValoresProgramas[0]?.Hotel}
-                ValorPersona={programa.ValoresProgramas[0]?.Text}
-                ImagenDestino={programa.UrlImage}
-                IdPrograma={programa.IdPrograma}
-                cambio={cambio}
-              />
-            ))}
+          : programas
+              .slice(0, 6)
+              .map((programa: Program) => (
+                <Destinos_info
+                  key={programa.IdPrograma}
+                  Titulo={programa.Titulo}
+                  Dias={programa.Dias.toString()}
+                  Noches={programa.Noches.toString()}
+                  Precio={programa.Precio.toString()}
+                  Hotels={programa.ValoresProgramas[0]?.Hotel}
+                  ValorPersona={programa.ValoresProgramas[0]?.Text}
+                  ImagenDestino={programa.UrlImage}
+                  IdPrograma={programa.IdPrograma}
+                  cambio={cambio}
+                />
+              ))}
       </div>
     </div>
   );
