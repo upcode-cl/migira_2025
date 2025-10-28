@@ -45,7 +45,7 @@ const Destinos = () => {
       <div>
         <h2 className="text-[30px] md:text-[45px] text-[#58167D] flex justify-center items-center text-center pl-5 pr-5 md:pl-20 md:pr-20 font-bold">
           A demás de Giras de Estudio nos especializamos en Programas Turísticos
-          para quienes buscan servicios exclusivos
+          para quienes buscan servicios exclusivos.
         </h2>
       </div>
       <div className="grid grid-col-1 lg:grid-cols-3 md:grid-cols-2 gap-10 pl-4 pr-4 lg:pl-28  lg:pr-28 pt-[50px] ">

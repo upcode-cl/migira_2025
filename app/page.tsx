@@ -14,7 +14,6 @@ export default function Home() {
       <Giras />
       <Beneficios />
       <Destinos />
-      {/* <Formulario /> */}
       <Contacto />
     </div>
   );
