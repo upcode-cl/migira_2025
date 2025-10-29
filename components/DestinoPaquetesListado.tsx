@@ -22,13 +22,13 @@ const DestinoPaquetesListado = ({ destino, idArea }: Props) => {
           className="object-cover"
         />
 
-        <div className="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-purple-700 to-transparent z-10" />
-
-        <div className="absolute inset-0 flex items-end p-4 justify-center z-20">
-          <h2 className="text-white font-bold text-xl text-center">
-            <span className="text-yellow-400">{destino.Nombre}</span>
-            <br />
-          </h2>
+        {/* Reemplazando el degradado por la barra morada */}
+        <div className="absolute bottom-0 left-0 w-full z-20">
+          <div className="w-full bg-[#58167D] text-white px-4 py-3 rounded-b-2xl text-center">
+            <h2 className="font-bold text-2xl whitespace-normal break-words">
+              {destino.Nombre}
+            </h2>
+          </div>
         </div>
       </div>
     </Link>

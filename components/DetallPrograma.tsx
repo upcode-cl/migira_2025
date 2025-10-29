@@ -322,28 +322,37 @@ export default function DetallePrograma({ programa }: { programa: Program }) {
         </div>
       )}
 
-      {/* Incluye */}
       {data?.Incluyes?.length > 0 && (
         <div className="w-[80%] mx-auto mt-4 border-2 border-black/10 rounded-md p-4 flex flex-col md:flex-row gap-4 justify-between">
-          <div className="md:w-1/2">
-            <h2 className="bg-[#58167D] p-2 rounded-md text-white">
-              El programa Incluye
-            </h2>
-            <ul className="list-none mt-2">
-              {data.Incluyes.map((inc, idx) => (
-                <li key={idx} className="flex items-center text-justify">
-                  <Check className="mr-2 text-amber-500 w-4 flex-shrink-0" />{" "}
-                  <span>{inc.Texto}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="relative md:w-1/2 aspect-video overflow-hidden rounded-md">
-            <div
-              className="absolute top-0 left-0 w-full h-full [&>iframe]:w-full [&>iframe]:h-full"
-              dangerouslySetInnerHTML={{ __html: data?.Video || "" }}
-            />
-          </div>
+          {(() => {
+            const hasVideo = !!(data?.Video && data.Video.trim() !== "");
+            return (
+              <>
+                <div className={hasVideo ? "md:w-1/2" : "md:w-full"}>
+                  <h2 className="bg-[#58167D] p-2 rounded-md text-white">
+                    El programa Incluye
+                  </h2>
+                  <ul className="list-none mt-2">
+                    {data.Incluyes.map((inc, idx) => (
+                      <li key={idx} className="flex items-start text-justify">
+                        <Check className="mr-2 text-amber-500 w-4 flex-shrink-0" />
+                        <span>{inc.Texto}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {hasVideo && (
+                  <div className="relative md:w-1/2 aspect-video overflow-hidden rounded-md">
+                    <div
+                      className="absolute top-0 left-0 w-full h-full [&>iframe]:w-full [&>iframe]:h-full"
+                      dangerouslySetInnerHTML={{ __html: data?.Video || "" }}
+                    />
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
       )}
 

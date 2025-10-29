@@ -98,6 +98,7 @@ const Giras = () => {
                 ImagenDestino={programas.UrlImage}
                 IdPrograma={programas.IdPrograma}
                 cambio={cambio}
+                subtitulo={programas.Subtitulo}
               />
             ))}
       </div>

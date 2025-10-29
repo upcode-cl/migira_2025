@@ -5,7 +5,10 @@ import Image from "next/image";
 
 const Contacto = () => {
   return (
-    <div className="relative w-[90%] mx-auto mb-8 overflow-hidden rounded-2xl shadow bg-yellow-400">
+    <div
+      id="contacto"
+      className="relative w-[90%] mx-auto mb-8 overflow-hidden rounded-2xl shadow bg-yellow-400"
+    >
       <Image
         src="/fondo-contacto.png"
         alt="Fondo de la sección de contacto"

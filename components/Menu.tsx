@@ -95,7 +95,7 @@ const Menu = () => {
                 <Link href="/cruceros">
                   <li className="animacion-botones">Cruceros</li>
                 </Link>
-                <Link href="/">
+                <Link href="#contacto">
                   <li className="animacion-botones">Contacto</li>
                 </Link>
               </SheetDescription>
@@ -156,10 +156,12 @@ const Menu = () => {
               </li>
             </Link>
             <li className="animacion-botones">
-              <span>
-                <Headset />
-              </span>
-              Contacto
+              <a href="#contacto" className="flex flex-col items-center">
+                <span>
+                  <Headset />
+                </span>
+                Contacto
+              </a>
             </li>
           </ul>
         </nav>
