@@ -78,6 +78,7 @@ export interface Program{
     Condiciones: Conditions[] | [];
     Actividades: Activity[] | [];
     Att: boolean | false;
+    NombreArea: string | '';
 };
 export interface Flight{
     IdVuelo: number | undefined;

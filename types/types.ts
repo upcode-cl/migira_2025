@@ -3,6 +3,7 @@ export interface ValorPrograma {
   Habitacion: string;
   Precio?: string;
   Text?:string;
+  
 }
 
 export interface Programa {
@@ -13,6 +14,7 @@ export interface Programa {
   Precio: string;
   UrlImage: string;
   ValoresProgramas: ValorPrograma[];
+  
 }
 
 export interface Itinerario {
@@ -50,7 +52,8 @@ export interface ProgramaDetalle {
   Video:string;
   Condiciones:Condicioness[];
   Actividades:Actividad[];
- 
+  
+
 }
 
 export interface ApiResponse {

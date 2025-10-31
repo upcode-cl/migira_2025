@@ -76,7 +76,7 @@ const Page = () => {
                 ImagenDestino={programa.UrlImage}
                 IdPrograma={programa.IdPrograma}
                 cambio={cambio}
-                subtitulo={programa.Subtitulo}
+                subtitulo={programa.NombreArea}
               />
             ))}
       </div>
